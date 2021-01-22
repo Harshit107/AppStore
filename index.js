@@ -1,7 +1,10 @@
 const express = require('express');
-const app = express();
+require('./src/db/connect.js')
 
+const app = express();
 const PORT = process.env.PORT || 3000;
+
+
 
 
 
@@ -10,3 +13,4 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log("Port is up On 3000")
 })
+
