@@ -1,0 +1,30 @@
+{
+  "name": "appstore",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev" : "nodemon/index.js",
+    "start" : "node/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Harshit107/AppStore.git"
+  },
+  "author": "Harshit Keshari",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Harshit107/AppStore/issues"
+  },
+  "homepage": "https://github.com/Harshit107/AppStore#readme",
+  "keywords": [],
+  "description": "",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.11.13"
+  },
+  "devDependencies": {
+    "chalk": "^4.1.0",
+    "nodemon": "^2.0.7"
+  }
+}
