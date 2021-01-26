@@ -33,6 +33,10 @@ const appListSchema = new mongoose.Schema({
     appVersion: {
         type: 'String',
         require: true,
+    },
+    appId: {
+        type: 'String',
+        require: true,
     }
 
 }, {

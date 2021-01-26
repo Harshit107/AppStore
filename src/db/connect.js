@@ -1,16 +1,12 @@
 const mongoose = require('mongoose');
 require('dotenv').config();
 
-<<<<<<< HEAD
-mongoose.connect(process.env.MONGODB_URL,{
-    useUnifiedTopology:true,
-    useNewUrlParser:true,
-    useCreateIndex:true
-},()=>console.log('Mongodb is connected successfully'))
-=======
 mongoose.connect(process.env.MONGODB_URL_DEV,{
     useUnifiedTopology:true,
     useNewUrlParser:true,
     useCreateIndex:true
-})
->>>>>>> upstream/main
+},
+    () => console.log(''))
+ 
+    
+

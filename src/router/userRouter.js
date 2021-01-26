@@ -5,7 +5,6 @@ const router = new express.Router();
 
 router.get('/applist', async (req, res) => {
 
-    console.log('applist')
     const detail = {
          appName : "Uem Connect",
          companyName :"Harshit",
@@ -15,6 +14,7 @@ router.get('/applist', async (req, res) => {
          appIcon : "default",
          appUrl : "abc.com",
          appVersion : "1.2.2",
+         appId : "123456",
     }   
     try {
         const app = await new AppList(detail);
@@ -30,7 +30,6 @@ router.get('/applist', async (req, res) => {
 })
 
 router.get('/applist/search',async(req, res) => {
-
     const appName = req.query.app || '';
     try {
 
@@ -43,7 +42,6 @@ router.get('/applist/search',async(req, res) => {
         console.log({ error })
         res.status(400).send({error})
     }
-
 
 })
 
