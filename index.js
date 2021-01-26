@@ -1,13 +1,16 @@
 const express = require('express');
 require('./src/db/connect.js')
 
+//import routes
+const authRoute = require('./src/router/auth')
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+app.use(express.json())
 
-app.get('/',(req, res)=>{
-    res.send('here everything is open now')
-})
+
+app.use('/api/client', authRoute);
 
 
 
