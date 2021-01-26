@@ -1,1 +1,1 @@
-# It's Google play Clone project
+# It's Google play Clone project, good
