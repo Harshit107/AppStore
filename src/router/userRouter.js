@@ -1,4 +1,5 @@
 const AppList = require('../model/appList');
+const auth = require('../auth/verifyToken');
 const express = require('express');
 const router = new express.Router();
 
@@ -6,14 +7,14 @@ const router = new express.Router();
 router.get('/applist', async (req, res) => {
 
     const detail = {
-         appName : "Uem Connect",
-         companyName :"Harshit",
-         appSize : "45",
-         appDownload : "125",
-         appRating : "4.2",
+         appName : "PicHub",
+         companyName :"H Keshari",
+         appSize : "25",
+         appDownload : "1015",
+         appRating : "4.5",
          appIcon : "default",
          appUrl : "abc.com",
-         appVersion : "1.2.2",
+         appVersion : "1.0.2",
          appId : "123456",
     }   
     try {
@@ -26,10 +27,9 @@ router.get('/applist', async (req, res) => {
             error
         )
     }
-   
 })
 
-router.get('/applist/search',async(req, res) => {
+router.get('/applist/search', async(req, res) => {
     const appName = req.query.app || '';
     try {
 

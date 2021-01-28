@@ -33,6 +33,18 @@ const userSchema = new mongoose.Schema({
             required: true,
             type: String
         }
+    }],
+    liveApps: [{
+        appId: {
+            required: true,
+            type: String
+        }
+    }],
+    draftApps: [{
+        appId: {
+            required: true,
+            type: String
+        }
     }]
 }, {
     timestamps : true,
@@ -42,7 +54,7 @@ const userSchema = new mongoose.Schema({
 
 //check user id and password
 userSchema.statics.findByCredentails = async ({ email, password })=>{
-    const user = await Client.findOne({ "email": email })
+    const user = await User.findOne({ "email": email })
     if(!user)
         throw new Error('No Email Found');    
     const checkPassworMatch = await bcrypt.compare(password,user.password)
@@ -74,5 +86,5 @@ userSchema.pre('save', async function (next) {
     next()
 })
 
-const Client =  mongoose.model('Client', userSchema);
-module.exports = Client;
+const User =  mongoose.model('User', userSchema);
+module.exports = User;

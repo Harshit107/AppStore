@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const Client = require('../model/client');
+const User = require('../model/user');
 
 const {
     loginValidation,
@@ -18,21 +18,22 @@ router.post('/signup', async (req, res) => {
         })
    
     try {
-        const emailExist = await Client.findOne({
+        const emailExist = await User.findOne({
             email: req.body.email
         })
         if (emailExist)
         return res.status(400).send({
             error: 'User is already registed with this email!'
         })
-        const client = new Client(req.body);
+        const client = new User(req.body);
         //saving user
         await client.save();
         //generating token and saving it ->client model
         const token = await client.generateToken();
     
-        res.send({
-            message: client
+        res.status(201).send({
+            message: client,
+            token
         });
     } catch (error) {
         res.status(400).send({ error });
@@ -53,23 +54,24 @@ router.post('/login', async (req, res) => {
         })
     try {
 
-        const client = await Client.findByCredentails(req.body);
-        if (!client)
+        const user = await User.findByCredentails(req.body);
+        if (!user)
             return res.status(400).send({ error: 'Invalid password' });
         //generating token and saving it
-        const token =await client.generateToken();
-        res.send({
+        const token =await user.generateToken();
+        res.status(200).send({
             token,
-            client
+            user
         });
         
     } catch (error) {
         console.log(error)
-        res.status(400).send(error)
+        res.status(400).send({error : 'Invalid userId or password'});
     }
     
 
 
 
 })
+
 module.exports = router;
