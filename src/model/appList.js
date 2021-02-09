@@ -4,39 +4,48 @@ require('dotenv').config();
 const appListSchema = new mongoose.Schema({
     appName: {
         type: 'String',
-        require: true,
+        required: true,
     },
     companyName: {
         type: 'String',
-        require: true,  
+        required: true,  
     },
     appSize: {
         type: 'String',
-        require: true, 
+        required: true, 
     },
     appDownload: {
         type: 'String',
-        require: true,
+        default: '6',
     },
     appRating: {
         type: 'String',
-        require: true,
+        default: 'N/A',
+        required: false,
     },
     appIcon: {
         type: 'String',
-        require: true,  
+        required: true,  
     },
     appUrl: {
         type: 'String',
-        require: true,
+        required: true,
     },
     appVersion: {
         type: 'String',
-        require: true,
+        required: true,
     },
     appId: {
         type: 'String',
-        require: true,
+        required: true,
+    },
+    appPackage: {
+        type: 'String',
+        required: true,
+    },
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true
     }
 
 }, {

@@ -3,6 +3,7 @@ const User = require('../model/user');
 
 module.exports = async (req, res, next)=> {
     try {
+
         let token = req.header('Authorization');
         
         if (!token || !token.includes('Bearer '))
@@ -11,6 +12,7 @@ module.exports = async (req, res, next)=> {
         token = token.replace('Bearer ', '');
 
         const decode = jwt.verify(token, process.env.TOKEN_SECRET)
+        
         const user = await User.findOne({ _id: decode._id, 'tokens.token': token })
         
         if(!user)

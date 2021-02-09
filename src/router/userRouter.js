@@ -1,8 +1,10 @@
-const AppList = require('../model/appList');
-const auth = require('../auth/verifyToken');
 const express = require('express');
 const router = new express.Router();
-
+const AppList = require('../model/appList');
+const AppBase = require('../model/appbase');
+const AppDetail = require('../model/appDetail');
+const User = require('../model/user');
+const AppImage = require('../model/appImage');
 
 router.get('/applist', async (req, res) => {
 
@@ -32,7 +34,6 @@ router.get('/applist', async (req, res) => {
 router.get('/applist/search', async(req, res) => {
     const appName = req.query.app || '';
     try {
-
         const searchResult = await AppList.find({ appName : new RegExp(appName, "i") });
         if (searchResult.length == 0)
             return res.status(404).send({ error: "No app found" });
@@ -44,5 +45,40 @@ router.get('/applist/search', async(req, res) => {
     }
 
 })
+
+router.get('/app/appdetail/get',  async (req, res) => {
+
+    try {
+        const appPackage = req.query.app;
+        // console.log(appPackage)
+        const {appId : appBaseId } = await AppList.findOne({appPackage })
+        const appDetailInfo = await AppDetail.findOne({appBaseId });
+        if (!appDetailInfo)
+            return res.status(404).send({ error: 'No such App found ' });
+        
+        const appBaseInfo = await AppBase.findById(appBaseId)
+        const appImageInfo = await AppImage.findOne({appBaseId})
+        const message = {
+            appBase: appBaseInfo,
+            appImage: appImageInfo,
+            appDetail : appDetailInfo
+        }
+        res.status(200).send({message});
+        
+    } catch (error) {
+        console.log({ error })
+        res.status(404).send({error: error})
+    }
+
+})
+
+router.get('/applist/hint', async (req, res) => {
+    const hint = req.query.hint || "";
+    const searchResult = await AppList.find({ appName: new RegExp(hint, "i") }).limit(6).select('appName appPackage appIcon');
+        if (searchResult.length == 0)
+            return res.status(404).send({ error: "No app found" });
+        res.send({message : searchResult})
+})
+
 
 module.exports = router;

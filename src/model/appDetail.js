@@ -1,22 +1,23 @@
 const mongoose = require('mongoose');
 require('dotenv').config();
 
-const appListSchema = new mongoose.Schema({
-    appId: {
-        type: 'String',
-        require: true,
+const appDetailSchema = new mongoose.Schema({
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
     },
-    appPackageName: {
-        type: String,
-        required : true
-    },    //
+    appImageId: {
+        type: mongoose.Schema.Types.ObjectId,
+        required : true, //        
+    },
+    appBaseId: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        unique : true
+    }, //
     appAbout : {
         type: String,
         required : true, //
-    },
-    appBackgroundImage: {
-        type: String,
-        required : true, //        
     },
     appDescription: {
         type: String,
@@ -24,22 +25,35 @@ const appListSchema = new mongoose.Schema({
     },
     appFeature: {
         type: String,
-        required : true
+    },
+    appDownload: {
+        type: String,
+        default : 'N/A'
+    },
+    appRating: {
+        type: String,
+        default : 'N/A'
+    },
+    devEmail: {
+        type: String,
+        required: true
+    },
+    devWebsite: {
+        type: String,
+    },
+    devPrivacy: {
+        type: String,
+        required: true
     },
     appType: {
         type: String,
         required: false,
         default : "APP"
     },
-    appScreenshot: {
-        type: String,
-        required : true
-    }
-
 }, {
     timestamps : true
 }) 
 
 
-const AppList = mongoose.model('AppList', appListSchema)
-module.exports = AppList;
+const appDetail = mongoose.model('AppDetail', appDetailSchema)
+module.exports = appDetail;

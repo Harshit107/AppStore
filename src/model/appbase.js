@@ -2,29 +2,37 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 
 const appBaseSchema = new mongoose.Schema({
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true
+    },
     appName: {
         type: 'String',
-        require: true,
+        required: true,
     },
     companyName: {
         type: 'String',
-        require: true,  
+        required: true,  
     },
     appSize: {
         type: 'String',
-        require: true, 
-    },
-    appIcon: {
-        type: 'String',
-        require: true,  
+        required: true, 
     },
     appUrl: {
         type: 'String',
-        require: true,
+        required: true,
+    },
+    appLocation: {
+        type: 'String',
     },
     appVersion: {
         type: 'String',
-        require: true,
+        required: true,
+    },
+    appPackage: {
+        type: 'String',
+        required: true,
+        unique : true
     },
    
 
@@ -32,6 +40,15 @@ const appBaseSchema = new mongoose.Schema({
     timestamps : true
 }) 
 
-
+appBaseSchema.virtual('appDetail', {
+    ref: 'AppDetail',
+    localField: '_id',
+    foreignField: 'appBaseId'
+})
+appBaseSchema.virtual('appImage', {
+    ref: 'AppImage',
+    localField: '_id',
+    foreignField: 'appBaseId'
+})
 const AppBase = mongoose.model('AppBase', appBaseSchema)
 module.exports = AppBase;
