@@ -7,10 +7,13 @@ module.exports = async (req, res, next)=> {
         let token = req.header('Authorization');
         
         if (!token || !token.includes('Bearer '))
-            return res.status(400).send({ error: "Authentication required" })
+            return res.status(401).send({ error: "Authentication required" })
         
         token = token.replace('Bearer ', '');
 
+        if (token == -1)
+            return res.status(401).send({ error: "Authentication required" })
+        
         const decode = jwt.verify(token, process.env.TOKEN_SECRET)
         
         const user = await User.findOne({ _id: decode._id, 'tokens.token': token })

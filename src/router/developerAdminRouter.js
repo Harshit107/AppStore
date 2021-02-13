@@ -13,7 +13,7 @@ const AppImage = require('../model/appImage');
 router.get('/admin/app/home/imageslider', async (req, res) => {
 
     try {
-        const message = await ImageSlider.find().sort({image : -1});
+        const message = await ImageSlider.find().sort({timestamp : 1});
         res.send({message})
 
     } catch (error) {
@@ -24,13 +24,14 @@ router.get('/admin/app/home/imageslider', async (req, res) => {
 
 })
 
-// router.get('/', async (req, res) => {
+router.get('/admin/uploadimage', async (req, res) => {
 
-//     const  image = "https://firebasestorage.googleapis.com/v0/b/appstore-in.appspot.com/o/Admin%2Fimageslider%2Fimg6.png?alt=media&token=c4e83eac-0758-4567-8b22-99197b28cd36"
-//     const link = await new ImageSlider({image});
-//     await link.save();
-//     res.status(200).send(link)
-// })
+    const image = 
+    "https://firebasestorage.googleapis.com/v0/b/appstore-in.appspot.com/o/Admin%2Fimageslider%2Fimg2.png?alt=media&token=38693a10-c8c0-47a5-8cc7-00cc48de84c0"
+    const link = await new ImageSlider({ image });
+    await link.save();
+    res.status(200).send(link)
+})
 
 // router.get("/", async (req, res) => {
     

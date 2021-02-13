@@ -31,9 +31,10 @@ router.get('/applist', async (req, res) => {
     }
 })
 
-router.get('/applist/search', async(req, res) => {
+router.get('/store/search', async(req, res) => {
     const appName = req.query.app || '';
     try {
+        // return res.status(404).send({message : "No app found"})
         const searchResult = await AppList.find({ appName : new RegExp(appName, "i") });
         if (searchResult.length == 0)
             return res.status(404).send({ error: "No app found" });
@@ -41,12 +42,12 @@ router.get('/applist/search', async(req, res) => {
         
     } catch (error) {
         console.log({ error })
-        res.status(400).send({error})
+        res.status(404).send({error})
     }
 
 })
 
-router.get('/app/appdetail/get',  async (req, res) => {
+router.get('/store/appdetail/',  async (req, res) => {
 
     try {
         const appPackage = req.query.app;
@@ -57,11 +58,15 @@ router.get('/app/appdetail/get',  async (req, res) => {
             return res.status(404).send({ error: 'No such App found ' });
         
         const appBaseInfo = await AppBase.findById(appBaseId)
-        const appImageInfo = await AppImage.findOne({appBaseId})
+        const appImageInfo = await AppImage.findOne({ appBaseId })
+        const appRating = await AppList.findOne({ appPackage }).select('appRating');
+        console.log(appRating.appRating.rating)
+
         const message = {
             appBase: appBaseInfo,
             appImage: appImageInfo,
-            appDetail : appDetailInfo
+            appDetail: appDetailInfo,
+            appRating : appRating.appRating.rating
         }
         res.status(200).send({message});
         
@@ -72,12 +77,83 @@ router.get('/app/appdetail/get',  async (req, res) => {
 
 })
 
-router.get('/applist/hint', async (req, res) => {
+router.get('/store/hint', async (req, res) => {
     const hint = req.query.hint || "";
     const searchResult = await AppList.find({ appName: new RegExp(hint, "i") }).limit(6).select('appName appPackage appIcon');
         if (searchResult.length == 0)
             return res.status(404).send({ error: "No app found" });
         res.send({message : searchResult})
+})
+
+
+router.post('/store/app/rating', async (req, res) => {
+
+    try {
+        console.log(req.body)
+        const { IMEI, appPackage, rating, message } = req.body;
+        if (IMEI == undefined || appPackage == undefined || rating == undefined ) {
+            return res.status(404).send({message : "Insufficient detail provided."})
+        }
+        const app = await AppList.findOne({ appPackage })
+
+        app.appRating.users = app.appRating.users.concat({
+            IMEI,
+            rating,
+            message
+        })
+        app.appRating.rating =parseInt(((parseInt(rating) + app.appRating.rating*(app.appRating.users.length-1))/app.appRating.users.length)*100)/100;
+        await app.save();
+        res.status(200).send({message : "Success"})
+
+    } catch (error) {
+        console.log({ error })
+        res.status(400).send({error})
+    }    
+
+})
+
+router.post('/store/app/rating/get', async (req, res) =>{
+    try {
+        const IMEI = req.body.IMEI;
+         const appPackage = req.body.appPackage;
+    if (!IMEI)
+        return res.status(404).send({ error: "Unique Id recognition failed!" })
+    
+         const rating = await AppList.findOne({ appPackage })
+    // console.log(rating)
+        const myRating = rating.appRating.users.filter(rating => rating.IMEI == IMEI)
+        if (myRating.length === 0) {
+            console.log({ message: myRating })   
+            return res.status(200).send({ message: { rating: "0", message: "" } })
+        }
+       
+        res.status(200).send({ message: myRating[0] })
+        
+    } catch (error) {
+        console.log({ error })
+        res.status(400).send({error})
+    }
+    
+
+})
+
+router.post('/store/app/download', async (req, res) => {
+
+    try {
+        const { appPackage } = req.body;
+        if (appPackage == undefined ) {
+            return res.status(404).send({message : "Insufficient detail provided."})
+        }
+        const app = await AppList.findOne({ appPackage })
+        app.appDownload = parseInt(app.appDownload) + 1
+        await app.save();
+        res.status(200).send({message : "Success"})
+
+    } catch (error) {
+        console.log({ error })
+        res.status(400).send({error})
+    }    
+
 })
 
 

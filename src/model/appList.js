@@ -15,13 +15,30 @@ const appListSchema = new mongoose.Schema({
         required: true, 
     },
     appDownload: {
-        type: 'String',
-        default: '6',
+        type: Number,
+        default: 5,
     },
     appRating: {
-        type: 'String',
-        default: 'N/A',
-        required: false,
+        rating: {
+            type: Number,
+            default: 0,
+            required: false,
+        },
+        users: [{
+            IMEI: {
+                type: String,
+                required: true
+            },
+            rating: {
+                type: Number,
+                required: true
+            },
+            message: {
+                type: String,
+                required: false
+            }
+
+        }]
     },
     appIcon: {
         type: 'String',
@@ -38,10 +55,12 @@ const appListSchema = new mongoose.Schema({
     appId: {
         type: 'String',
         required: true,
+        unique: true,
     },
     appPackage: {
         type: 'String',
         required: true,
+        unique: true
     },
     userId: {
         type: mongoose.Schema.Types.ObjectId,

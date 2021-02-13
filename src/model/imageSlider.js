@@ -6,6 +6,8 @@ const mongooseSchema = new  mongoose.Schema({
         type: String,
         required: true
     }
+}, {
+    timestamps : true
 })
 
 
