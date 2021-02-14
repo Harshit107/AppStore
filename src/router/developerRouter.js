@@ -306,7 +306,7 @@ router.post('/upload/appdetail/edit', auth, async (req, res) => {
         const myLiveApp = await AppList.findOne({ appPackage })
 
         if (!resultApp ) {
-            const url = 'http://localhost:3000/developer/upload/appdetail'
+            const url = `${process.env.API_URL}/developer/upload/appdetail`
             const result = await fetch(url, {
                 method: 'post',
                 body: JSON.stringify(req.body),
