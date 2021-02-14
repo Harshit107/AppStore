@@ -14,8 +14,6 @@ app.use("/developer",developerRouter)
 app.use("/",imageSlider)
 
 
-
-
 app.listen(PORT, () => {
     console.log("Port is up On 3000")
 })
