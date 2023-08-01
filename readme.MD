@@ -1,5 +1,5 @@
 # AppStore
-## **Anyone can Join and publish their app in appstore.** 
+## **Anyone can Join and publish their app in the appstore.** 
 We just created it as a project, not officially published yet.
 
 ### App Overview: 
