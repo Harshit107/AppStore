@@ -7,7 +7,7 @@ mongoose.connect(process.env.MONGODB_URL,{
     useCreateIndex: true,
     autoIndex: true, 
 },
-    () => console.log(''))
+    () => console.log(''));
  
     
 
